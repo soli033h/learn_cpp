@@ -5,7 +5,8 @@
 
 // Value Category를 판별해주는 헬퍼 함수
 template <typename T>
-void print_value_category(T&& expr, const char* expr_name) {
+void print_value_category(T&& expr, const char* expr_name) 
+{
     // decltype((expr)) 처럼 괄호를 2번 감싸면 표현식의 값 범주 상태가 참조 타입으로 반영됨
     // - lvalue 참조(T&)로 추론되면 -> lvalue
     // - rvalue 참조(T&&)로 추론되면 -> xvalue
@@ -13,55 +14,65 @@ void print_value_category(T&& expr, const char* expr_name) {
     using Category = decltype((expr));
 
     std::cout << "Expression [" << expr_name << "] : ";
-    if constexpr (std::is_lvalue_reference_v<Category>) {
+
+    if constexpr (std::is_lvalue_reference_v<Category>) 
+    {
         std::cout << "lvalue (has name and addressable)\n";
-    } else if constexpr (std::is_rvalue_reference_v<Category>) {
+    } 
+    else if constexpr (std::is_rvalue_reference_v<Category>) 
+    {
         std::cout << "xvalue (expiring object, can be moved)\n";
-    } else {
+    } 
+    else 
+    {
         std::cout << "prvalue (temporary object / literal)\n";
     }
 }
 
-class Cat {
-public:
-    std::string name;
+class Cat 
+{
+    public:
+        std::string name;
 
-    explicit Cat(std::string n) : name(std::move(n)) {
-        std::cout << "  [Created] " << name << "\n";
-    }
+        explicit Cat(std::string n) : name(std::move(n)) {
+            std::cout << "  [Created] " << name << "\n";
+        }
 
-    // 복사 생성자 (lvalue를 전달받을 때)
-    Cat(const Cat& other) : name(other.name) {
-        std::cout << "  [Copy Created] " << name << " (copied from lvalue)\n";
-    }
+        // 복사 생성자 (lvalue를 전달받을 때)
+        Cat(const Cat& other) : name(other.name) {
+            std::cout << "  [Copy Created] " << name << " (copied from lvalue)\n";
+        }
 
-    // 이동 생성자 (rvalue를 전달받을 때)
-    Cat(Cat&& other) noexcept : name(std::move(other.name)) {
-        std::cout << "  [Move Created] " << name << " (resource moved from rvalue)\n";
-    }
+        // 이동 생성자 (rvalue를 전달받을 때)
+        Cat(Cat&& other) noexcept : name(std::move(other.name)) {
+            std::cout << "  [Move Created] " << name << " (resource moved from rvalue)\n";
+        }
 
-    // --- C++ Ref-qualifiers ---
-    // lvalue 객체에서만 호출 가능한 멤버 함수
-    void meow() & {
-        std::cout << "  " << name << ": Meow! (called on lvalue object)\n";
-    }
+        // --- C++ Ref-qualifiers ---
+        // lvalue 객체에서만 호출 가능한 멤버 함수
+        void meow() & {
+            std::cout << "  " << name << ": Meow! (called on lvalue object)\n";
+        }
 
-    // rvalue(임시/만료 예정) 객체에서만 호출 가능한 멤버 함수
-    void meow() && {
-        std::cout << "  " << name << ": Meow... (called on rvalue object)\n";
-    }
+        // rvalue(임시/만료 예정) 객체에서만 호출 가능한 멤버 함수
+        void meow() && {
+            std::cout << "  " << name << ": Meow... (called on rvalue object)\n";
+        }
 };
 
 // 함수 오버로딩을 통한 참조 구분
-void adopt(Cat& cat) {
+void adopt(Cat& cat) 
+{
     std::cout << "-> [adopt(Cat&)] lvalue reference: " << cat.name << " adopted\n";
 }
 
-void adopt(Cat&& cat) {
+void adopt(Cat&& cat) 
+{
     std::cout << "-> [adopt(Cat&&)] rvalue reference: " << cat.name << " adopted\n";
 }
 
-int main() {
+int main() 
+{
     std::cout << "=== 1. Identifying Value Categories ===\n";
     Cat nabi{"Nabi"}; // nabi는 이름이 있는 변수 -> lvalue
 
