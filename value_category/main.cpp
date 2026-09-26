@@ -3,24 +3,22 @@
 #include <utility>
 #include <type_traits>
 
-// Value Category를 판별해주는 헬퍼 함수
-template <typename T>
-void print_value_category(T&& expr, const char* expr_name) {
-    // decltype((expr)) 처럼 괄호를 2번 감싸면 표현식의 값 범주 상태가 참조 타입으로 반영됨
-    // - lvalue 참조(T&)로 추론되면 -> lvalue
-    // - rvalue 참조(T&&)로 추론되면 -> xvalue
-    // - 참조가 없는 값 타입이면 -> prvalue
-    using Category = decltype((expr));
-
+// 호출식 자체의 value category를 보존해 출력하는 헬퍼
+// 주의: forwarding-reference 매개변수(T&&)에 이름이 붙으면 함수 내부에서는 항상 lvalue 표현식이다.
+// 따라서 value category 판별은 호출 지점에서 decltype((expr))로 타입을 넘겨 수행한다.
+template <typename Expr>
+void print_value_category(const char* expr_name) {
     std::cout << "Expression [" << expr_name << "] : ";
-    if constexpr (std::is_lvalue_reference_v<Category>) {
+    if constexpr (std::is_lvalue_reference_v<Expr>) {
         std::cout << "lvalue (has name and addressable)\n";
-    } else if constexpr (std::is_rvalue_reference_v<Category>) {
+    } else if constexpr (std::is_rvalue_reference_v<Expr>) {
         std::cout << "xvalue (expiring object, can be moved)\n";
     } else {
         std::cout << "prvalue (temporary object / literal)\n";
     }
 }
+
+#define PRINT_VALUE_CATEGORY(expr) print_value_category<decltype((expr))>(#expr)
 
 class Cat {
 public:
@@ -65,9 +63,9 @@ int main() {
     std::cout << "=== 1. Identifying Value Categories ===\n";
     Cat nabi{"Nabi"}; // nabi는 이름이 있는 변수 -> lvalue
 
-    print_value_category(nabi, "nabi");                         // lvalue
-    print_value_category(Cat{"Calico"}, "Cat{\"Calico\"}");     // prvalue
-    print_value_category(std::move(nabi), "std::move(nabi)");   // xvalue
+    PRINT_VALUE_CATEGORY(nabi);              // lvalue
+    PRINT_VALUE_CATEGORY(Cat{"Calico"});     // prvalue
+    PRINT_VALUE_CATEGORY(std::move(nabi));   // xvalue
 
     std::cout << "\n=== 2. lvalue Reference vs rvalue Reference Overloading ===\n";
     Cat nero{"Nero"};
