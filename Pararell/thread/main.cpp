@@ -3,7 +3,7 @@
 
 void feed_cat(const char* cat_name)
 {
-    std::cout << cat_name << "is eating..!" << "\n";
+    std::cout << cat_name << " is eating..!" << "\n";
 }
 
 int main() 
