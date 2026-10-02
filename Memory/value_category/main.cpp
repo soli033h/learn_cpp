@@ -8,7 +8,7 @@ void meow(int& number)
 
 void meow(int&& number)
 {
-    std::cout << "rvalue reference value is ..." << number << "\n";
+    std::cout << "rvalue reference value is..." << number << "\n";
 }
 
 int main()
@@ -16,7 +16,7 @@ int main()
     int n = 25;
 
     meow(n); // lvalue 
-    meow(25); // rvalue
+    meow(26); // rvalue
 
     meow(std::move(n)); // lvalue를 rvalue로 casting, 더 정확히는 xvalue
 }
