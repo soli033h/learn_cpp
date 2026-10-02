@@ -11,5 +11,6 @@ int main()
     {
         std::cout << cat << " ";
     }
+    
     std::cout << "\n";
 }
