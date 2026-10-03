@@ -5,7 +5,8 @@ int main()
 {
     std::vector<std::string> cats = {"Buzzi", "Hazel", "Bella", "Lucy", "Oliver"};
     
-    cats.push_back("Pearl");
+    //cats.push_back("Pearl");
+    cats.emplace_back("Pearl");
     
     for (std::string cat : cats)
     {
