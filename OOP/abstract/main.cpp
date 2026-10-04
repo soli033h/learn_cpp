@@ -2,13 +2,15 @@
 
 class Cat
 {
-    protected:
+    public:
         virtual void meow() = 0;
+
+        virtual ~Cat() {}
 };
 
-class Calico : protected Cat 
+class Calico : public Cat 
 {
-    protected: 
+    public: 
         void meow() override 
         {
             std::cout << "meow~" << "\n";
@@ -16,6 +18,11 @@ class Calico : protected Cat
 };
 
 int main()
-{
+{   
+    Cat* Jasper = new Calico();
+    Jasper -> meow();
+
+    delete Jasper;
+    
     return 0;
 }
