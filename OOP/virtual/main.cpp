@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 
 class Cat
 {
@@ -19,7 +20,7 @@ class Calico : public Cat
 
 int main()
 {   
-    Cat* Jasper = new Calico();
+    auto Jasper = std::make_unique<Calico>();
     Jasper -> meow();
 
     delete Jasper;
