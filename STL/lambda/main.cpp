@@ -3,12 +3,11 @@
 #include <string>
 #include <algorithm>
 
-class Cat
-{
-    public:
-        std::string name;
-        int age;
-        double weight_kg;
+struct Cat
+{     
+    std::string name;
+    int age;
+    double weight_kg;
 };
 
 int main() {
