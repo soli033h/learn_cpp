@@ -149,6 +149,8 @@ static_assert(std::is_same_v<std::remove_cvref_t<Value>, int>);
 
 `std::remove_cvref_t`는 C++20에서 제공되며, `const`, `volatile`, 참조를 제거한다.
 
+<!-- TODO: 2026.10.08 -->
+
 ## 타입 변환
 
 Type traits는 타입의 속성을 검사할 뿐 아니라 새로운 타입을 만들 수도 있다. C++14부터는 대부분의 변환 trait에 `_t` 접미사가 붙은 별칭을 사용할 수 있다.
