@@ -163,6 +163,8 @@ static_assert(point.y_value() == 4);
 
 이 방식은 템플릿 매개변수, 고정된 설정값, 컴파일 시간 검증이 필요한 작은 객체를 구성할 때 사용할 수 있다.
 
+TODO: 2026.10.08 
+
 ## `std::string_view`와 `constexpr`
 
 문자열 리터럴은 `std::string_view`와 함께 컴파일 시간 상수로 표현할 수 있다.

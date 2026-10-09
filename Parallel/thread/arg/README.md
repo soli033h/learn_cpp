@@ -396,46 +396,6 @@ int main()
 5. 참조, 포인터, 람다 캡처 대상의 수명이 스레드보다 긴지 확인한다.
 6. `std::thread` 객체는 작업이 끝나기 전에 반드시 `join()`하거나, 의도적으로 분리할 때만 `detach()`한다.
 
-## 11. 종합 예제
-
-```cpp
-#include <functional>
-#include <iostream>
-#include <memory>
-#include <string>
-#include <thread>
-
-void feed_cat(
-    std::string name,
-    int food_count,
-    int& total_food,
-    std::unique_ptr<int> bonus
-)
-{
-    total_food += food_count + *bonus;
-
-    std::cout << name
-              << " ate " << food_count << " snacks\n";
-}
-
-int main()
-{
-    int total_food = 0;
-    auto bonus = std::make_unique<int>(2);
-
-    std::thread worker(
-        feed_cat,
-        std::string("Luna"),  // 값 전달
-        5,                    // 값 전달
-        std::ref(total_food), // 참조 전달
-        std::move(bonus)      // 소유권 이동
-    );
-
-    worker.join();
-
-    std::cout << "total food: " << total_food << '\n';
-}
-```
 
 ## `std::forward`와의 관계
 
