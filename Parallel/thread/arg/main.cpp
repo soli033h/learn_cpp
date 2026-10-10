@@ -1,18 +1,17 @@
 #include <iostream>
+#include <string>
 #include <thread>
 
-void add_score(int& score)
+void meow(const std::string& name)
 {
-    score += 10;
-    std::cout << "worker score: " << score << '\n';
+    std::cout << name << " meow~" << '\n';
 }
 
 int main()
 {
-    int score = 100;
+    std::string cat = "Buzzi";
 
-    std::thread worker(add_score, std::ref(score));
+    std::thread worker(meow, std::cref(cat));
     worker.join();
 
-    std::cout << "main score: " << score << '\n';
 }

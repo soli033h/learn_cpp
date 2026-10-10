@@ -148,7 +148,7 @@ int main()
     t1.join();
     t2.join();
 
-    std::cout << counter << '\n';
+    std::cout << counter <<'\n';
 }
 ```
 
