@@ -1,17 +1,19 @@
 #include <iostream>
 #include <string>
 #include <thread>
+#include <memory>
 
-void meow(const std::string& name)
+void let_people_know_my_age(std::unique_ptr<int> age)
 {
-    std::cout << name << " meow~" << '\n';
+    std::cout << *age << '\n';
 }
 
 int main()
 {
-    std::string cat = "Buzzi";
+    auto ptr_to_my_secret_age = std::make_unique<int>(25);    
 
-    std::thread worker(meow, std::cref(cat));
+    std::thread worker(let_people_know_my_age, std::move(ptr_to_my_secret_age));
     worker.join();
 
+    //std::cout << "after func: "<< *ptr_to_my_secret_age << '\n';
 }
